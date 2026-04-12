@@ -1,0 +1,1 @@
+LOG_FILE = "/home/<USERNAME>/logs/events.log"
