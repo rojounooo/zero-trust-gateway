@@ -142,5 +142,14 @@ response_headers := {"x-user-role": role, "x-user-id": user} if {
 
 response := {
     "allowed": allow,
-    "headers": response_headers
+    "headers": response_headers,
+    "debug": debug
+}
+
+debug := {
+    "user": user,
+    "role": role,
+    "hour": time.clock(time.now_ns())[0],
+    "day": time.weekday(time.now_ns()),
+    "on_shift": on_shift
 }
