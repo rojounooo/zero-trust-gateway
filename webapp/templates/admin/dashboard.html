@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .header {
+            background-color: #607D8B;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        
+        .role-badge {
+            background-color: rgba(255, 255, 255, 0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .header-left {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logout-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: background-color 0.3s;
+            align-self: flex-start;
+        }
+
+        .logout-btn:hover {
+            background-color: rgba(255, 255, 255, 0.35);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .card h2 {
+            color: #607D8B;
+            margin-top: 0;
+            font-size: 20px;
+        }
+        
+        .card p {
+            color: #666;
+            margin: 15px 0;
+        }
+        
+        .card-btn {
+            background-color: #607D8B;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .card-btn:hover {
+            background-color: #455A64;
+        }
+        
+        .welcome-message {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .welcome-message h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        
+        .access-notice {
+            background-color: #ECEFF1;
+            border-left: 4px solid #607D8B;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 4px;
+        }
+        
+        .access-notice h3 {
+            margin-top: 0;
+            color: #607D8B;
+            font-size: 16px;
+        }
+        
+        .access-notice ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .security-notice {
+            background-color: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 4px;
+        }
+        
+        .security-notice strong {
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="header" style="display:flex; justify-content:space-between; align-items:center;">
+        <div class="header-left">
+            <h1>🏥 Hospital EMR System - IT Admin Portal</h1>
+            <span class="role-badge">Role: Administrator</span>
+        </div>
+        <a href="/logout" class="logout-btn">Logout</a>
+    </div>
+
+    <div class="welcome-message">
+        <h2>Welcome, IT Administrator</h2>
+        <p>You have system management access for user accounts and audit logs.</p>
+        
+        <div class="security-notice">
+            <strong>Zero Trust Security:</strong> As per zero trust principles, IT administrators do NOT have access to patient data. Your role is limited to system management only.
+        </div>
+        
+        <div class="access-notice">
+            <h3>Your Access Level:</h3>
+            <ul>
+                <li>✓ User account management (create, modify, disable users)</li>
+                <li>✓ View audit logs and system activity</li>
+                <li>✓ System configuration and settings</li>
+                <li>✗ NO access to patient demographics</li>
+                <li>✗ NO access to medical records</li>
+                <li>✗ NO access to emergency contacts</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="card">
+            <h2>👥 User Management</h2>
+            <p>Create, modify, or disable user accounts and assign roles</p>
+            <a href="/admin/users" class="card-btn">Manage Users</a>
+        </div>
+
+        <div class="card">
+            <h2>📊 Audit Logs</h2>
+            <p>View system access logs and security events</p>
+            <a href="/admin/logs" class="card-btn">View Logs</a>
+        </div>
+
+        <div class="card">
+            <h2>⚙️ System Settings</h2>
+            <p>Configure system parameters and security policies</p>
+            <a href="#" class="card-btn">Settings</a>
+        </div>
+
+        <div class="card">
+            <h2>👤 My Profile</h2>
+            <p>View your account information</p>
+            <a href="#" class="card-btn">View Profile</a>
+        </div>
+    </div>
+</body>
+</html>

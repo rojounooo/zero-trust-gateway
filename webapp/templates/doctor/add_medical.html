@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Medical Record</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 20px; background-color: #f5f5f5; }
+        .form-container { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
+        input, textarea { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; font-family: Arial, sans-serif; }
+        textarea { min-height: 100px; resize: vertical; }
+        input:focus, textarea:focus { outline: none; border-color: #4CAF50; box-shadow: 0 0 5px rgba(76,175,80,0.3); }
+        .button-group { margin-top: 30px; display: flex; gap: 10px; }
+        .btn { padding: 12px 30px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; font-size: 16px; transition: background-color 0.3s; text-align: center; flex: 1; }
+        .save-btn { background-color: #4CAF50; color: white; }
+        .save-btn:hover { background-color: #45a049; }
+        .cancel-btn { background-color: #f44336; color: white; }
+        .cancel-btn:hover { background-color: #da190b; }
+        .info-box { background-color: #e8f5e9; padding: 10px; border-left: 4px solid #4CAF50; margin-bottom: 20px; border-radius: 4px; }
+        .help-text { font-size: 12px; color: #666; margin-top: 3px; }
+    </style>
+</head>
+<body>
+    <div style="background-color:#4CAF50;color:white;padding:15px 20px;border-radius:8px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;">
+        <h1 style="margin:0;font-size:24px;">🏥 Add Medical Record - Doctor Portal</h1>
+        <div style="display:flex;gap:10px;">
+            <a href="/{{ role }}/dashboard" style="background-color:rgba(255,255,255,0.2);color:white;padding:8px 20px;border-radius:4px;text-decoration:none;font-size:14px;border:1px solid rgba(255,255,255,0.5);">← Dashboard</a>
+            <a href="/logout" style="background-color:rgba(255,255,255,0.2);color:white;padding:8px 20px;border-radius:4px;text-decoration:none;font-size:14px;border:1px solid rgba(255,255,255,0.5);">Logout</a>
+        </div>
+    </div>
+    <div class="form-container">
+        <div class="info-box">
+            <strong>Adding medical record for:</strong> {{ patient.name }} (NHS: {{ patient.nhs_number }})
+        </div>
+        <form method="post" action="/doctor/save-medical/{{ patient.nhs_number }}">
+            <div class="form-group">
+                <label for="condition">Condition/Diagnosis *</label>
+                <textarea id="condition" name="condition" required placeholder="Enter the medical condition or diagnosis"></textarea>
+                <div class="help-text">Enter the medical condition or diagnosis</div>
+            </div>
+            <div class="form-group">
+                <label for="treatment">Treatment *</label>
+                <textarea id="treatment" name="treatment" required placeholder="Enter the prescribed treatment or medication"></textarea>
+                <div class="help-text">Enter the prescribed treatment or medication</div>
+            </div>
+            <div class="button-group">
+                <button type="submit" class="btn save-btn">Add Medical Record</button>
+                <a href="/doctor/patient?name={{ patient.name }}" class="btn cancel-btn">Cancel</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

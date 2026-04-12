@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Logs - Admin Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .header {
+            background-color: #607D8B;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .back-btn {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        
+        .back-btn:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        h2 {
+            color: #607D8B;
+            margin-top: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 14px;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #607D8B;
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .result-success {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .result-denied {
+            color: #f44336;
+            font-weight: bold;
+        }
+        
+        .action-view {
+            background-color: #e3f2fd;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            color: #1565c0;
+        }
+        
+        .action-edit {
+            background-color: #fff3e0;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            color: #e65100;
+        }
+        
+        .action-delete {
+            background-color: #ffebee;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            color: #c62828;
+        }
+        
+        .action-add {
+            background-color: #e8f5e9;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            color: #2e7d32;
+        }
+        
+        .info-box {
+            background-color: #ECEFF1;
+            padding: 15px;
+            border-left: 4px solid #607D8B;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .filter-form {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .filter-form label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .filter-form select, .filter-form input {
+            padding: 6px 10px;
+            margin-right: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .filter-form button {
+            padding: 6px 20px;
+            background-color: #607D8B;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .filter-form button:hover {
+            background-color: #455A64;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Audit Logs</h1>
+        <a href="/admin/dashboard" class="back-btn">← Back to Dashboard</a>
+    </div>
+
+    <div class="info-box">
+        <strong>Audit Logging:</strong> All system access and actions are logged for security and compliance. These logs are immutable and cannot be modified.
+    </div>
+
+    <div class="filter-form">
+        <label for="user">Filter by User:</label>
+        <select id="user">
+            <option value="">All Users</option>
+            <option value="dr.smith">dr.smith</option>
+            <option value="nurse.jones">nurse.jones</option>
+            <option value="pharma.brown">pharma.brown</option>
+        </select>
+        
+        <label for="action">Action:</label>
+        <select id="action">
+            <option value="">All Actions</option>
+            <option value="VIEW">View</option>
+            <option value="EDIT">Edit</option>
+            <option value="ADD">Add</option>
+            <option value="DELETE">Delete</option>
+        </select>
+        
+        <label for="date">Date:</label>
+        <input type="date" id="date">
+        
+        <button>Apply Filters</button>
+    </div>
+
+    <h2>Recent Activity</h2>
+    <table>
+        <tr>
+            <th>Timestamp</th>
+            <th>User</th>
+            <th>Action</th>
+            <th>Resource</th>
+            <th>Result</th>
+        </tr>
+
+        {% for log in logs %}
+        <tr>
+            <td>{{ log.timestamp }}</td>
+            <td>{{ log.user }}</td>
+            <td>
+                {% if "VIEW" in log.action %}
+                    <span class="action-view">{{ log.action }}</span>
+                {% elif "EDIT" in log.action %}
+                    <span class="action-edit">{{ log.action }}</span>
+                {% elif "DELETE" in log.action %}
+                    <span class="action-delete">{{ log.action }}</span>
+                {% elif "ADD" in log.action %}
+                    <span class="action-add">{{ log.action }}</span>
+                {% else %}
+                    {{ log.action }}
+                {% endif %}
+            </td>
+            <td>{{ log.resource }}</td>
+            <td>
+                {% if log.result == "SUCCESS" %}
+                    <span class="result-success">✓ SUCCESS</span>
+                {% else %}
+                    <span class="result-denied">✗ DENIED</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</body>
+
+</html>

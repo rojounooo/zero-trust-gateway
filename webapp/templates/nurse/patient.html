@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient View - Nurse Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .header {
+            background-color: #2196F3;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .back-btn {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        
+        .back-btn:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        h2 {
+            color: #2196F3;
+            margin-top: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #2196F3;
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .search-form {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .search-form label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .search-form input {
+            padding: 8px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .search-form button {
+            padding: 8px 20px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .search-form button:hover {
+            background-color: #0b7dda;
+        }
+
+        .add-btn {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 10px 0;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .add-btn:hover {
+            background-color: #0b7dda;
+        }
+        
+        .read-only-badge {
+            background-color: #ff9800;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        .notice {
+            background-color: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .notice strong {
+            color: #856404;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Patient View - Nurse Portal</h1>
+        <a href="/nurse/dashboard" class="back-btn">← Back to Dashboard</a>
+    </div>
+
+    <form method="get" action="/nurse/patient" class="search-form">
+        <label for="name">Search by name:</label>
+        <input type="text" id="name" name="name" value="{{ name }}" placeholder="Enter patient name...">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if patients %}
+    <div class="notice">
+        <strong>Note:</strong> You have read-only access to patient demographics and emergency contacts. You can add nursing observations to medical records.
+    </div>
+    {% endif %}
+
+    <h2>Patient Demographics <span class="read-only-badge">READ ONLY</span></h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>NHS Number</th>
+        </tr>
+
+        {% for patient in patients %}
+        <tr>
+            <td>{{ patient.name }}</td>
+            <td>{{ patient.age }}</td>
+            <td>{{ patient.gender }}</td>
+            <td>{{ patient.phone_number }}</td>
+            <td>{{ patient.email }}</td>
+            <td>{{ patient.address }}</td>
+            <td>{{ patient.nhs_number }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <h2>Emergency Contact <span class="read-only-badge">READ ONLY</span></h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Relationship</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+        </tr>
+        {% for contact in emergency_contact %}
+        <tr>
+            <td>{{ contact.name }}</td>
+            <td>{{ contact.relationship }}</td>
+            <td>{{ contact.phone_number }}</td>
+            <td>{{ contact.email }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Medical Records</h2>
+    {% if patients %}
+    <a href="/nurse/add-medical/{{ patients[0].nhs_number }}" class="add-btn">+ Add Nursing Observation</a>
+    {% endif %}
+    <table>
+        <tr>
+            <th>Condition/Observation</th>
+            <th>Treatment/Notes</th>
+        </tr>
+        {% for record in medical_records %}
+        <tr>
+            <td>{{ record.condition }}</td>
+            <td>{{ record.treatment }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+
+</html>
