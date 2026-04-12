@@ -24,6 +24,7 @@ All incoming requests pass through the Envoy gateway, where authentication token
 - `policies/` → OPA policy definitions
 - `webapp/` → FastAPI application
 - `detector/` → Detection engine
+- `ingestion/` → FastAPI ingestion server
 - `simulation/` → Traffic generation scripts
 - `analysis/` → KPI calculation scripts
 
