@@ -1,0 +1,3 @@
+# detection/requirements.txt
+# Only uses Python standard library modules: json, os, time
+# No third-party dependencies required
