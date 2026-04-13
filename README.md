@@ -27,6 +27,7 @@ All incoming requests pass through the Envoy gateway, where authentication token
 - `ingestion/` → FastAPI ingestion server
 - `simulation/` → Traffic generation scripts
 - `analysis/` → KPI calculation scripts
+- `helpers/` → Helper scripts
 
 ## Setup
 See `setup.md` for full deployment instructions.
